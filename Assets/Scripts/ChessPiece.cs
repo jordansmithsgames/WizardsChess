@@ -74,13 +74,12 @@ public class ChessPiece : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("Colliding with something!");
         if (other.gameObject.CompareTag("Hand"))
         {
             InputDevice leftHandDevice = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
             InputDevice rightHandDevice = InputDevices.GetDeviceAtXRNode(XRNode.RightHand);
 
-            float triggerValue, gripValue;
+            float triggerValue, gripValue; // Don't care, just need it for the function
 
             // See if either hand is holding onto the piece with trigger or grip buttons
             bool leftHeld = leftHandDevice.TryGetFeatureValue(CommonUsages.trigger, out triggerValue)
@@ -88,12 +87,7 @@ public class ChessPiece : MonoBehaviour
             bool rightHeld = rightHandDevice.TryGetFeatureValue(CommonUsages.trigger, out triggerValue)
                             || rightHandDevice.TryGetFeatureValue(CommonUsages.grip, out gripValue);
 
-            if (leftHeld && rightHeld)
-            {
-                Debug.Log("Holding piece!");
-                held = true;
-            }
-            else held = false;
+            held = leftHeld && rightHeld ? true : false;
         }
     }
 

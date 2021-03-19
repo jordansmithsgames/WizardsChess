@@ -40,10 +40,7 @@ public class NetworkPlayer : MonoBehaviour
 
         if (photonView.IsMine)
         {
-            foreach (var item in GetComponentsInChildren<Renderer>())
-            {
-                item.enabled = false;
-            }
+            foreach (var item in GetComponentsInChildren<Renderer>()) item.enabled = false;
         }
     }
 
@@ -63,23 +60,11 @@ public class NetworkPlayer : MonoBehaviour
 
     void UpdateHandAnimation(InputDevice targetDevice, Animator handAnimator)
     {
-        if (targetDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue))
-        {
-            handAnimator.SetFloat("Trigger", triggerValue);
-        }
-        else
-        {
-            handAnimator.SetFloat("Trigger", 0);
-        }
-
-        if (targetDevice.TryGetFeatureValue(CommonUsages.grip, out float gripValue))
-        {
-            handAnimator.SetFloat("Grip", gripValue);
-        }
-        else
-        {
-            handAnimator.SetFloat("Grip", 0);
-        }
+        if (targetDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue)) handAnimator.SetFloat("Trigger", triggerValue);
+        else handAnimator.SetFloat("Trigger", 0);
+       
+        if (targetDevice.TryGetFeatureValue(CommonUsages.grip, out float gripValue)) handAnimator.SetFloat("Grip", gripValue);
+        else handAnimator.SetFloat("Grip", 0);
     }
 
     void MapPosition(Transform target, Transform rigTransform)

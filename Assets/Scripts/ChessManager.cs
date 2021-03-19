@@ -13,13 +13,13 @@ public class ChessManager : MonoBehaviour
         2. Move piece to corresponding coordinates from user command
         3. Manage turns
         4. Update board map
-     */
+    */
+
     public StreamingRecognizer sr;
     public float pieceVerticalDist = 0.15f;
     public float pieceVertSpeed = 5f;
     public float pieceHoriSpeed = 5f;
 
-    Photon.Voice
     float oldY;
     private List<ChessPiece> pieces;
     private bool blackTurn, success;
@@ -32,7 +32,6 @@ public class ChessManager : MonoBehaviour
         foreach (GameObject piece in GameObject.FindGameObjectsWithTag("Chess Pieces"))
         {
             ChessPiece p = piece.GetComponent<ChessPiece>();
-            //Debug.Log("Adding the " + p.color.ToString() + " " + p.rank.ToString() + " located at " + p.position);
             pieces.Add(piece.GetComponent<ChessPiece>());
         }
     }
@@ -51,7 +50,6 @@ public class ChessManager : MonoBehaviour
                     StartCoroutine(ListenToUser());
                 }
             }
-            //else sr.StopListening();
         }
 
         if (success && heldPiece != null)
@@ -104,30 +102,12 @@ public class ChessManager : MonoBehaviour
                 break;
             }
         }
-
-/*        foreach(string pos in keyPhrases)
-        {
-            if (command.Contains(pos)) {
-                newPiecePosition = pos;
-                success = true;
-                break;
-            }
-        }*/
     }
 
     public void MovePiece(ChessPiece piece, string pos)
     {
         if ((blackTurn && piece.color == ChessPiece.Color.BLACK) || (!blackTurn && piece.color == ChessPiece.Color.WHITE) && piece.held)
         {
-            // Attach player to piece, disable movement controls
-            /*
-            currPiece = piece;
-            Vector3 pPos = piece.piece.transform.position;
-            oldY = pPos.y;
-            // Go up
-            piece.piece.transform.position = new Vector3(pPos.x, Mathf.MoveTowards(pPos.y, pieceVerticalDist, pieceVertSpeed * Time.deltaTime), pPos.z);
-
-            */
             piece.piece.transform.position = new Vector3(piece.piece.transform.position.x, Mathf.MoveTowards(piece.piece.transform.position.y, 0.5f, pieceVertSpeed * Time.deltaTime), piece.piece.transform.position.z);
             StartCoroutine(MoveDown(piece, pos));
         }
@@ -142,25 +122,12 @@ public class ChessManager : MonoBehaviour
     }
 
     IEnumerator MoveDown(ChessPiece piece, string pos)
-    {/*
-        Vector3 pPos = currPiece.piece.transform.position;
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(MoveHorizontally(pos));
-        currPiece.piece.transform.position = new Vector3(pPos.x, Mathf.MoveTowards(oldY, pieceVerticalDist, pieceVertSpeed * Time.deltaTime), pPos.z);
-
+    {
         // Release player from chess piece, enable movement controls
-        */
+        
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(MoveHorizontally(piece, pos));
         piece.piece.transform.position = new Vector3(piece.piece.transform.position.x, Mathf.MoveTowards(piece.piece.transform.position.y, 0.15f, 5 * Time.deltaTime), piece.piece.transform.position.z);
         blackTurn = !blackTurn;
-
-        /*
-        if (currPiece.piece.transform.position == new Vector3(pPos.x, oldY, pPos.z))
-        {
-            Debug.Log("Done!");
-            success = false;
-        }
-        */
     }
 }

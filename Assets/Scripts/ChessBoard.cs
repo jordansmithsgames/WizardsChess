@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ChessBoard : MonoBehaviour
 {
+    // Chess AI is way too much work to do in a weekend hackathon! (TODO... sometime)
+
     /*
     public float tileLength;
     List<ChessPiece> pieces;
